@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" class="bg-background">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Líderes del Torneo · Baloncesto</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="ball" aria-hidden="true"></div>
+        <div>
+          <h1>Torneo de Baloncesto</h1>
+          <span>Líderes de estadísticas y tabla de posiciones</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="fb-banner" class="banner" hidden></div>
+
+    <nav class="tabs" id="tabs" aria-label="Categorías">
+      <button class="tab active" data-view="standings">Tabla de posiciones</button>
+      <button class="tab" data-view="puntos">Puntos</button>
+      <button class="tab" data-view="rebotes">Rebotes</button>
+      <button class="tab" data-view="asistencias">Asistencias</button>
+      <button class="tab" data-view="robos">Robos</button>
+      <button class="tab" data-view="tapones">Tapones</button>
+    </nav>
+
+    <div id="mode-toggle-wrap"></div>
+
+    <div id="content">
+      <div class="loading">Cargando datos…</div>
+    </div>
+  </main>
+
+  <script type="module" src="./js/public.js"></script>
+</body>
+</html>

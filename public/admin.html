@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es" class="bg-background">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Registro · Baloncesto</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="ball" aria-hidden="true"></div>
+        <div>
+          <h1>Panel de Registro</h1>
+          <span>Gestiona equipos, jugadores y juegos</span>
+        </div>
+      </div>
+      <a class="nav-link" href="./index.html">← Ver estadísticas públicas</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="fb-banner" class="banner" hidden></div>
+
+    <nav class="tabs" id="admin-tabs" aria-label="Secciones">
+      <button class="tab active" data-section="teams">Equipos y jugadores</button>
+      <button class="tab" data-section="newgame">Registrar juego</button>
+      <button class="tab" data-section="games">Juegos registrados</button>
+    </nav>
+
+    <!-- SECCIÓN EQUIPOS -->
+    <section id="section-teams" class="admin-section">
+      <div class="section">
+        <h2>Crear equipo</h2>
+        <div class="row-flex">
+          <div>
+            <label for="new-team-name">Nombre del equipo</label>
+            <input id="new-team-name" placeholder="Ej. Los Tigres" />
+          </div>
+          <div class="shrink">
+            <label>&nbsp;</label>
+            <button class="btn" id="add-team-btn">Agregar equipo</button>
+          </div>
+        </div>
+      </div>
+      <hr class="div" />
+      <div id="teams-list"></div>
+    </section>
+
+    <!-- SECCIÓN NUEVO JUEGO -->
+    <section id="section-newgame" class="admin-section" hidden>
+      <div class="section">
+        <h2>Registrar nuevo juego</h2>
+        <div class="grid-2">
+          <div>
+            <label for="game-local">Equipo local</label>
+            <select id="game-local"></select>
+          </div>
+          <div>
+            <label for="game-visitante">Equipo visitante</label>
+            <select id="game-visitante"></select>
+          </div>
+        </div>
+        <button class="btn secondary small" id="load-rosters-btn" style="margin-top:12px;">Cargar planteles ↓</button>
+      </div>
+      <div id="game-form-area"></div>
+    </section>
+
+    <!-- SECCIÓN JUEGOS REGISTRADOS -->
+    <section id="section-games" class="admin-section" hidden>
+      <div class="section">
+        <h2>Juegos registrados</h2>
+        <p class="subtle">Edita o elimina cualquier juego. La tabla y los líderes se recalculan automáticamente.</p>
+      </div>
+      <div id="games-list"></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module" src="./js/admin.js"></script>
+</body>
+</html>
