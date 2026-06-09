@@ -207,22 +207,66 @@ function renderGameForm({ localId, visitId, existing = null }) {
   }
 
   function rosterRows(team) {
-    return (team.players || [])
-      .map((p) => {
-        const s = statMap[p.id] || {}
-        const inputs = STAT_COLS.map(
-          (c) =>
-            `<input type="number" min="0" data-stat="${c.key}" data-pid="${p.id}" value="${s[c.key] ?? 0}" />`
-        ).join("")
-        return `
-        <div class="stat-input-row" data-player-row="${p.id}" data-name="${esc(p.nombre)}">
-          <span class="pname">#${esc(String(p.numero ?? ""))} ${esc(p.nombre)}</span>
-          ${inputs}
-        </div>`
-      })
-      .join("")
-  }
+  return (team.players || [])
+    .map((p) => {
+      const s = statMap[p.id] || {}
 
+      const inputs = STAT_COLS.map(
+        (c) =>
+          `<input type="number"
+             min="0"
+             data-stat="${c.key}"
+             data-pid="${p.id}"
+             value="${s[c.key] ?? 0}" />`
+      ).join("")
+
+      return `
+      <div class="stat-input-row" data-player-row="${p.id}" data-name="${esc(p.nombre)}">
+
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button
+            type="button"
+            class="btn danger small player-toggle"
+            onclick="
+              const row=this.closest('[data-player-row]');
+
+              if(row.dataset.out==='true'){
+                row.dataset.out='false';
+                row.style.opacity='1';
+
+                row.querySelectorAll('input[data-stat]').forEach(i=>{
+                  i.disabled=false;
+                });
+
+                this.textContent='Sacar';
+              }else{
+                row.dataset.out='true';
+                row.style.opacity='0.35';
+
+                row.querySelectorAll('input[data-stat]').forEach(i=>{
+                  i.disabled=true;
+                  i.value=0;
+                });
+
+                this.textContent='Agregar';
+              }
+            "
+          >
+            Sacar
+          </button>
+
+          <span class="pname">
+            #${esc(String(p.numero ?? ""))}
+            ${esc(p.nombre)}
+          </span>
+        </div>
+
+        ${inputs}
+
+      </div>`
+    })
+    .join("")
+}
   if (!(local.players || []).length || !(visit.players || []).length) {
     area.innerHTML = `<div class="panel"><div class="empty">Ambos equipos necesitan jugadores antes de registrar el juego.</div></div>`
     return
@@ -263,17 +307,30 @@ function renderGameForm({ localId, visitId, existing = null }) {
 }
 
 function collectStats(containerId) {
-  const rows = document.querySelectorAll(`#${containerId} [data-player-row]`)
+  const rows = document.querySelectorAll(
+    `#${containerId} [data-player-row]`
+  )
+
   const result = []
+
   rows.forEach((row) => {
+
+    if (row.dataset.out === "true") return
+
     const pid = row.dataset.playerRow
     const line = { playerId: pid }
+
     row.querySelectorAll("input[data-stat]").forEach((inp) => {
       line[inp.dataset.stat] = Number(inp.value) || 0
     })
-    STAT_KEYS.forEach((k) => (line[k] = line[k] ?? 0))
+
+    STAT_KEYS.forEach((k) => {
+      line[k] = line[k] ?? 0
+    })
+
     result.push(line)
   })
+
   return result
 }
 
